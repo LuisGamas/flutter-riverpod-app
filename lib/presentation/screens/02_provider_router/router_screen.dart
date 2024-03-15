@@ -13,7 +13,7 @@ class RouterScreen extends ConsumerWidget {
         title: const Text('Provider + Go Router'),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon( Icons.arrow_back_ios_new_rounded ),
+        child: const Icon( Icons.chevron_left_rounded ),
         onPressed: () {
           ref.read(appRouterProvider).pop();
         },
