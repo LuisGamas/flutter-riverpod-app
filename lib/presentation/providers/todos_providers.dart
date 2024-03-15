@@ -8,7 +8,7 @@ part 'todos_providers.g.dart';
 const uuid = Uuid();
 enum TodoFilterType { all, completed, pending }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class TodoCurrentFilter extends _$TodoCurrentFilter {
 
   @override
@@ -20,7 +20,7 @@ class TodoCurrentFilter extends _$TodoCurrentFilter {
 
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class Todos extends _$Todos {
 
   @override
@@ -43,6 +43,37 @@ class Todos extends _$Todos {
       ...state,
       Todo( id: uuid.v4(), description: description, completedAt: null )
     ];
+  }
+
+  void toggleTodo(String id) {
+
+    state = state.map((todo) {
+
+      if (todo.id == id) {
+        todo = todo.copyWith(
+          completedAt: todo.done ? null : DateTime.now()
+        );
+      }
+
+      return todo;
+    }).toList();
+
+  }
+}
+
+@riverpod
+List<Todo> filteredTodos(FilteredTodosRef ref) {
+  
+  final currentFilter = ref.watch(todoCurrentFilterProvider);
+  final todos = ref.watch(todosProvider);
+
+  switch(currentFilter) {
+    case TodoFilterType.all:
+      return todos;
+    case TodoFilterType.completed:
+      return todos.where((todo) => todo.done).toList();
+    case TodoFilterType.pending:
+      return todos.where((todo) => !todo.done).toList();
   }
 
 }

@@ -33,20 +33,20 @@ class _TodoView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final currentFilter = ref.watch(todoCurrentFilterProvider);
-    final todos = ref.watch(todosProvider);
+    final todos = ref.watch(filteredTodosProvider);
 
     return Column(
       children: [
         const ListTile(
-          title: Text('Listado de invitados'),
-          subtitle: Text('Estas son las personas a invitar a la fiesta'),
+          title: Text('Listado de personas'),
+          subtitle: Text('Esta es una lista de personas con opción de "Activo" e "Inactivo"'),
         ),
 
         SegmentedButton(
           segments: const[
             ButtonSegment(value: TodoFilterType.all, icon: Text('Todos')),
-            ButtonSegment(value: TodoFilterType.completed, icon: Text('Invitados')),
-            ButtonSegment(value: TodoFilterType.pending, icon: Text('No invitados')),
+            ButtonSegment(value: TodoFilterType.completed, icon: Text('Activos')),
+            ButtonSegment(value: TodoFilterType.pending, icon: Text('Inactivos')),
           ], 
           selected: <TodoFilterType>{ currentFilter },
           onSelectionChanged: (value) {
@@ -67,7 +67,9 @@ class _TodoView extends ConsumerWidget {
               return SwitchListTile(
                 title: Text(todo.description),
                 value: todo.done, 
-                onChanged: ( value ) {}
+                onChanged: ( value ) {
+                  ref.read(todosProvider.notifier).toggleTodo(todo.id);
+                }
               );
             },
           ),

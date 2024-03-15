@@ -6,12 +6,27 @@ part of 'todos_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoCurrentFilterHash() => r'c77d257c429f2d7515d80c1e51de68ce76a5d7c6';
+String _$filteredTodosHash() => r'e1230c687e407191c462b6449f92f529f40eb6d6';
+
+/// See also [filteredTodos].
+@ProviderFor(filteredTodos)
+final filteredTodosProvider = AutoDisposeProvider<List<Todo>>.internal(
+  filteredTodos,
+  name: r'filteredTodosProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$filteredTodosHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FilteredTodosRef = AutoDisposeProviderRef<List<Todo>>;
+String _$todoCurrentFilterHash() => r'ab9e7ca6a4ed8cc6c0cb7ecb24d4cb2e3ef806e3';
 
 /// See also [TodoCurrentFilter].
 @ProviderFor(TodoCurrentFilter)
 final todoCurrentFilterProvider =
-    AutoDisposeNotifierProvider<TodoCurrentFilter, TodoFilterType>.internal(
+    NotifierProvider<TodoCurrentFilter, TodoFilterType>.internal(
   TodoCurrentFilter.new,
   name: r'todoCurrentFilterProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,12 +36,12 @@ final todoCurrentFilterProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$TodoCurrentFilter = AutoDisposeNotifier<TodoFilterType>;
-String _$todosHash() => r'21f5b5d62c8b76388bf59edc181fe0373fcba64c';
+typedef _$TodoCurrentFilter = Notifier<TodoFilterType>;
+String _$todosHash() => r'1f6a72f16fded5cd8575bc5c5802a1775f2cb59f';
 
 /// See also [Todos].
 @ProviderFor(Todos)
-final todosProvider = AutoDisposeNotifierProvider<Todos, List<Todo>>.internal(
+final todosProvider = NotifierProvider<Todos, List<Todo>>.internal(
   Todos.new,
   name: r'todosProvider',
   debugGetCreateSourceHash:
@@ -35,6 +50,6 @@ final todosProvider = AutoDisposeNotifierProvider<Todos, List<Todo>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Todos = AutoDisposeNotifier<List<Todo>>;
+typedef _$Todos = Notifier<List<Todo>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
